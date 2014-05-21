@@ -1,5 +1,6 @@
 describe("CSS Slider", function(){
   describe("Initialization", function(){
+
     beforeEach(function(){
       loadFixtures('example.html');
       $('.css-slider').cssSlider();
@@ -8,10 +9,13 @@ describe("CSS Slider", function(){
     it("should add absolute position to each slide", function () {
       expect($('.css-slider .slide').css('position')).toBe('absolute');
     });
+    
   });
 
   describe("Configurations", function(){
+
     describe("start slide:", function(){
+
       it("should be the default when not specified", function () {
         loadFixtures('example.html');
         $('.css-slider').cssSlider();
@@ -39,7 +43,9 @@ describe("CSS Slider", function(){
   });
 
   describe("CSS Classes", function(){
+
     describe("active class:", function(){
+
       var slider;
       beforeEach(function(){
         loadFixtures('example.html');
