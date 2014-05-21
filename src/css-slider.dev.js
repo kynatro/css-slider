@@ -25,7 +25,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-( function( $, window, undefined, I ) {
+( function( $, window, undefined) {
     var CSSSlider = function( el, params ) {
         // Visibility of dropdown navigation
         this._dropdownNavVisible = false;
@@ -144,7 +144,7 @@
                     css.top = ( ind - self.current ) * self.sliderHeight;
                 }
 
-                self.elements.slides.eq( ind ).css( css, $.extend( I.prefixCSS( { transition: 'left 0ms, top 0ms' } ) ) );
+                self.elements.slides.eq( ind ).css( css, $.extend( { transition: 'left 0ms, top 0ms' } ) );
             } );
 
             // Adjust slider height if dynamicHeight is being used
@@ -179,7 +179,7 @@
                     left: 'auto'
                 });
 
-                self.elements.slides.eq( ind ).css( css, $.extend( I.prefixCSS( { transition: 'left 0ms, top 0ms' } ) ) );
+                self.elements.slides.eq( ind ).css( css, { transition: 'left 0ms, top 0ms' } );
             } );
         }
     };
@@ -520,7 +520,7 @@
             var css = {
                 height: this.sliderHeight + navHeightOffset
             }
-            this.elements.slider.css( css, $.extend( css, I.prefixCSS( { 'transition': 'height 250ms' } ) ) );
+            this.elements.slider.css( css, $.extend( css, { 'transition': 'height 250ms' } ) );
         }
     };
 
@@ -536,7 +536,7 @@
         var self = this;
 
         // Setup the prefixed transition rules
-        var css = I.prefixCSS( { transition: 'left ' + this.options.speed + 'ms ' + this.options.easing + ', top ' + this.options.speed + 'ms ' + this.options.easing } );
+        var css = { transition: 'left ' + this.options.speed + 'ms ' + this.options.easing + ', top ' + this.options.speed + 'ms ' + this.options.easing };
 
         // Apply to a single slide
         if( slide != undefined ) {
@@ -568,7 +568,7 @@
 
         slider._interactingOffset.end = slider._touchOffset( event );
 
-        slider.elements.slides.css( I.prefixCSS( { 'transition-duration': slider.options.speed + 'ms' } ) );
+        slider.elements.slides.css( { 'transition-duration': slider.options.speed + 'ms' } );
 
         var breach = false;
         var direction = 'next';
@@ -713,7 +713,7 @@
             }
         };
 
-        slider.elements.slides.css( I.prefixCSS( { 'transition-duration': '0ms' } ) );
+        slider.elements.slides.css( { 'transition-duration': '0ms' } );
 
         if( window.addEventListener ) {
             slider.elements.slider[0].addEventListener( 'touchmove', slider._touchMove, false );
@@ -790,9 +790,9 @@
         this.autoPlay = this.options.autoPlay;
 
         // Fall back to jQuery Animation if the browser doesn't support CSS Transitions
-        if( !I.supports( 'cssanimations' ) ) {
-            this.options.method = "animate";
-        }
+        // if( !I.supports( 'cssanimations' ) ) {
+        //     this.options.method = "animate";
+        // }
 
         // Set current slide to start slide requested
         this.current = this.options.start;
@@ -982,4 +982,4 @@
             return _return;
         }
     } );
-} )( jQuery, window, null, Impress );
+} )( jQuery, window, null );
