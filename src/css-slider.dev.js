@@ -257,11 +257,11 @@
         $( window ).resize( function() {
             // Adjust width
             self._adjustDimensions();
-        } ).resize( $.throttle( 250, function() {
+        } ).resize(function() {
             // Reset transition rules
             self._setTransition();
             self._checkDisable();
-        } ) );
+        });
 
         // Navigation before action
         this.elements.slider.on( this.namespace + ':before', function( event, slider, index ) {
@@ -316,9 +316,9 @@
         }
 
         this.elements.slides.each( function( ind ) {
+            var leftOffset = ( ind - self.current ) * self.sliderWidth;
             var css = {
-
-                left: ( ind - self.current ) * self.sliderWidth
+                left: leftOffset
             };
 
             // TODO:: accomodate for dynamicHeight options
@@ -334,6 +334,9 @@
             }
 
             self.elements.slides.eq( ind ).css( css );
+            if(ind === self.current) {
+                self.elements.slides.eq( ind ).addClass('current');
+            }
         } );
 
         this.elements.slider.triggerHandler( this.namespace + ':built', [ this, this.current ] );
@@ -419,10 +422,12 @@
     };
 
     CSSSlider.prototype._checkDisable = function() {
-        if( Modernizr.mq( this.options.disabledMediaQuery ) ) {
-            this.disabled = true;
-        } else {
-            this.disabled = false;
+        if( window.Modernizr ) {
+            if( Modernizr.mq( this.options.disabledMediaQuery ) ) {
+                this.disabled = true;
+            } else {
+                this.disabled = false;
+            }
         }
     }
 
@@ -911,6 +916,11 @@
         // Update active navigation
         if( this.elements.navigation.length ) {
             this.elements.navigationLinks.removeClass( 'active' ).eq( this.current ).addClass( 'active' );
+        }
+
+        // Update active slide
+        if( this.elements.slides.length ) {
+            this.elements.slides.removeClass( 'current' ).eq( this.current ).addClass( 'current' );
         }
 
         this.elements.slides.each( function( ind ) {
