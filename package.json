@@ -1,0 +1,17 @@
+{
+  "name": "css-slider",
+  "version": "0.1.0",
+  "description": "A CSS based Slider",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/digital-telepathy/css-slider.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jasmine": "^0.6.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-connect": "^0.7.1"
+  }
+}

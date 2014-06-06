@@ -1,0 +1,20 @@
+{
+  "bitwise": true,
+  "browser": true,
+  "curly": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "esnext": true,
+  "immed": true,
+  "jquery": true,
+  "latedef": true,
+  "newcap": false,
+  "noarg": true,
+  "node": true,
+  "strict": false,
+  "trailing": true,
+  "predef": ["jQuery"],
+  "-W038": false,
+  "-W083": false,
+  "-W004": false
+}
