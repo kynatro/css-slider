@@ -1,5 +1,5 @@
 describe("CSS Slider", function(){
-  describe("Initialization", function(){
+  describe("Initialization:", function(){
 
     beforeEach(function(){
       loadFixtures('example.html');
@@ -12,7 +12,7 @@ describe("CSS Slider", function(){
     
   });
 
-  describe("Configurations", function(){
+  describe("Configurations:", function(){
 
     describe("start slide", function(){
 
@@ -42,15 +42,15 @@ describe("CSS Slider", function(){
     });
   });
 
-  describe("CSS Classes", function(){
+  describe("CSS Classes:", function(){
+    var slider;
+    beforeEach(function(){
+      loadFixtures('example.html');
+      var sliderElem = $('.css-slider').cssSlider();
+      slider = sliderElem.data('CSSSlider');
+    });
 
     describe("first and last classes", function(){
-      var slider;
-      beforeEach(function(){
-        loadFixtures('example.html');
-        var sliderElem = $('.css-slider').cssSlider();
-        slider = sliderElem.data('CSSSlider');
-      });
 
       it("should have only one 'first' class", function(){
         expect($('.css-slider .slide.first').length).toBe(1);
@@ -72,13 +72,6 @@ describe("CSS Slider", function(){
 
     describe("active class", function(){
 
-      var slider;
-      beforeEach(function(){
-        loadFixtures('example.html');
-        var sliderElem = $('.css-slider').cssSlider();
-        slider = sliderElem.data('CSSSlider');
-      });
-
       it("should have an active class on only one slide", function(){
         expect($('.css-slider .slide.current').length).toBe(1);
       });
@@ -95,6 +88,50 @@ describe("CSS Slider", function(){
         expect(slider.elements.slides.eq(newCurrent)).toHaveClass('current');
       });
 
+    });
+  });
+
+  describe("Events:", function(){
+    var slider, sliderElem;
+
+    describe("built event", function(){
+      it("should trigger an event when built", function(){
+
+        loadFixtures('example.html');
+        var sliderElem = $('.css-slider');
+        var spyOnBuilt = spyOnEvent(sliderElem, 'slider:built');
+        sliderElem.cssSlider();
+
+        expect('slider:built').toHaveBeenTriggeredOn(sliderElem);
+      });
+    });
+
+    describe("navigation events", function(){
+
+      beforeEach(function(){
+        loadFixtures('example.html');
+        sliderElem = $('.css-slider').cssSlider();
+        slider = sliderElem.data('CSSSlider');
+        spyOnEvent(sliderElem, 'slider:before');
+        spyOnEvent(sliderElem, 'slider:complete');
+      });
+
+      describe("after animating", function(){
+
+        it("should trigger a 'before' callback event", function(){
+          slider.goTo(slider.current+1);
+          expect('slider:before').toHaveBeenTriggeredOn(sliderElem);
+        });
+
+        it("should trigger a 'complete' callback event", function(){
+          slider.goTo(slider.current+1);
+
+          // wait for the slide to transition
+          setTimeout(function(){
+            expect('slider:complete').toHaveBeenTriggeredOn(sliderElem);
+          }, slider.options.speed);
+        });
+      });
     });
   });
 });
