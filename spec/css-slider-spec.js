@@ -134,4 +134,53 @@ describe("CSS Slider", function(){
       });
     });
   });
+
+  describe("Navigation:", function(){
+    var slider, sliderElem;
+
+    beforeEach(function(){
+      loadFixtures('example.html');
+      sliderElem = $('.css-slider').cssSlider();
+      slider = sliderElem.data('CSSSlider');
+    });
+
+    describe("when using 'goTo'", function(){
+      beforeEach(function(){
+        loadFixtures('example.html');
+        sliderElem = $('.css-slider').cssSlider();
+        slider = sliderElem.data('CSSSlider');
+      });
+
+      describe("and slider is disbled", function(){
+        beforeEach(function(){
+          slider.disabled = true;
+        });
+
+        it("should not call slide()", function(){
+          spyOn(slider, 'slide');
+          slider.goTo(2);
+          expect(slider.slide).not.toHaveBeenCalled();
+        });
+        it("should not change the current slide property", function(){
+          var previousSlide = slider.current;
+          slider.goTo(2);
+          var currentSlide = slider.current;
+          expect(previousSlide).toEqual(currentSlide);
+        });
+      });
+      describe("and slider is enabled", function(){
+        it("should call slide()", function(){
+          spyOn(slider, 'slide');
+          slider.goTo(2);
+          expect(slider.slide).toHaveBeenCalled();
+        });
+        it("should change the current slide property", function(){
+          var previousSlide = slider.current;
+          slider.goTo(2);
+          var currentSlide = slider.current;
+          expect(previousSlide).not.toEqual(currentSlide);
+        });
+      });
+    });
+  });
 });
