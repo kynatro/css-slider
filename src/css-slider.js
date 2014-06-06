@@ -315,6 +315,10 @@
             this._setTransition();
         }
 
+        // Setup first and last classes on slides
+        self.elements.slides.first().addClass('first');
+        self.elements.slides.last().addClass('last');
+
         this.elements.slides.each( function( ind ) {
             var leftOffset = ( ind - self.current ) * self.sliderWidth;
             var css = {
@@ -429,7 +433,7 @@
                 this.disabled = false;
             }
         }
-    }
+    };
 
     // Animation complete event
     CSSSlider.prototype._eventComplete = function() {

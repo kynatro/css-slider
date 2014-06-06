@@ -14,7 +14,7 @@ describe("CSS Slider", function(){
 
   describe("Configurations", function(){
 
-    describe("start slide:", function(){
+    describe("start slide", function(){
 
       it("should be the default when not specified", function () {
         loadFixtures('example.html');
@@ -44,7 +44,33 @@ describe("CSS Slider", function(){
 
   describe("CSS Classes", function(){
 
-    describe("active class:", function(){
+    describe("first and last classes", function(){
+      var slider;
+      beforeEach(function(){
+        loadFixtures('example.html');
+        var sliderElem = $('.css-slider').cssSlider();
+        slider = sliderElem.data('CSSSlider');
+      });
+
+      it("should have only one 'first' class", function(){
+        expect($('.css-slider .slide.first').length).toBe(1);
+      });
+
+      it("should have only one 'last' class", function(){
+        expect($('.css-slider .slide.last').length).toBe(1);
+      });
+
+      it("'first' class should be on the first slide", function(){
+        expect(slider.elements.slides.first()).toHaveClass('first');
+      });
+
+      it("'last' class should be on the last slide", function(){
+        expect(slider.elements.slides.last()).toHaveClass('last');
+      });
+
+    });
+
+    describe("active class", function(){
 
       var slider;
       beforeEach(function(){
@@ -53,7 +79,7 @@ describe("CSS Slider", function(){
         slider = sliderElem.data('CSSSlider');
       });
 
-      it("should have an active class on one slide", function(){
+      it("should have an active class on only one slide", function(){
         expect($('.css-slider .slide.current').length).toBe(1);
       });
 
