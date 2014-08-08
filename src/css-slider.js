@@ -118,7 +118,7 @@
         this.sliderWidth = this.elements.slider.width();
         this.sliderHeight = this._getSliderHeight();
 
-        if( this.elements.navigation.length && this.options.orientation == "vertical" ) {
+        if( this.elements.navigation.length && this.options.orientation === "vertical" ) {
             if( Modernizr.mq( 'only screen and (max-width: 767px)' ) ) {
                 this.showDropdownNav();
             } else {
@@ -129,7 +129,7 @@
         // Get navigation gutter dimensions
         this._getNavigationDimensions();
 
-        if( this.disabled == false ) {
+        if( this.disabled === false ) {
 
             this.elements.slides.each( function( ind ) {
                 var css = {
@@ -139,7 +139,7 @@
                     height: self.sliderHeight
                 };
 
-                if( self.options.orientation == "vertical" ) {
+                if( self.options.orientation === "vertical" ) {
                     css.left = self.navigationGutter;
                     css.top = ( ind - self.current ) * self.sliderHeight;
                 }
@@ -151,7 +151,7 @@
             self._setDynamicSliderHeight();
 
             // Adjust navigation dimensions if present
-            if( this.elements.navigation.length && this.options.orientation == "vertical" ) {
+            if( this.elements.navigation.length && this.options.orientation === "vertical" ) {
                 this.elements.navigation.width( this.navigationGutter );
 
                 this.elements.navigation.height( this.sliderHeight );
@@ -194,7 +194,7 @@
 
             self._autoPlay();
         }, this.options.autoPlayDelay );
-    }
+    };
 
     CSSSlider.prototype._bindEvents = function(){
         var self = this;
@@ -240,13 +240,19 @@
 
         this.elements.slider.on( 'mousedown', function( event ) {
             // Only respect left click
-            if( event.button <= 1 ) self._touchStart( event );
+            if( event.button <= 1 ) {
+                self._touchStart( event );
+            }
         } ).on( 'mousemove', function( event ) {
             // Only respect left click
-            if( event.button <= 1 ) self._touchMove( event );
+            if( event.button <= 1 ) {
+                self._touchMove( event );
+            }
         } ).on( 'mouseup', function( event ) {
             // Only respect left click
-            if( event.button <= 1 ) self._touchEnd( event );
+            if( event.button <= 1 ) {
+                self._touchEnd( event );
+            }
         } );
 
         if( window.addEventListener ) {
@@ -270,7 +276,7 @@
             self._adjustDimensions();
 
             // Update dropdown navigation
-            if( typeof( self.elements.dropdownNav ) != 'undefined' ) {
+            if( typeof( self.elements.dropdownNav ) !== 'undefined' ) {
                 // Update the selected slide display
                 self.elements.dropdownNavSelected.text( label );
 
@@ -289,10 +295,10 @@
         var self = this;
 
         // if dynamicHeight is set
-        if( this.options.dynamicHeight != 'none' ) {
+        if( this.options.dynamicHeight !== 'none' ) {
             // wrap the markup in slide-inner
             this.elements.slides.wrapInner('<div class="slide-inner"></div>');
-            if( this.options.dynamicHeight == 'tallest' ) {
+            if( this.options.dynamicHeight === 'tallest' ) {
                 this.elements.slides.wrapInner('<div class="slide-tallest-inner"></div>');
             }
         }
@@ -311,7 +317,7 @@
         }
 
         // Setup the transition rules
-        if( this.options.method == "css" ) {
+        if( this.options.method === "css" ) {
             this._setTransition();
         }
 
@@ -326,7 +332,7 @@
             };
 
             // TODO:: accomodate for dynamicHeight options
-            if( self.options.orientation == "vertical" ) {
+            if( self.options.orientation === "vertical" ) {
                 self.preventDefaultSwipeX = true;
                 self.preventDefaultSwipeY = false;
                 css = $.extend( css, {
@@ -407,7 +413,7 @@
         this.elements.navigationLinks.eq( this.current ).addClass( 'active' );
 
         // Only build a sized navigation if this is a vertical slider
-        if( this.options.orientation == 'vertical' ) {
+        if( this.options.orientation === 'vertical' ) {
             var navHeight = ( this.sliderHeight / this.elements.slides.length );
             this._getNavigationDimensions();
 
@@ -457,31 +463,43 @@
 
         // Previous/Next buttons
         this.elements.prev = this.elements.slider.find( this.options.prev );
-        if( !this.elements.prev.length ) this.elements.prev = $( this.options.prev );
+        if( !this.elements.prev.length ) {
+            this.elements.prev = $( this.options.prev );
+        }
         this.elements.next = this.elements.slider.find( this.options.next );
-        if( !this.elements.next.length ) this.elements.next = $( this.options.next );
+        if( !this.elements.next.length ) {
+            this.elements.next = $( this.options.next );
+        }
 
         // Navigation element
         this.elements.navigation = this.elements.slider.find( this.options.navigation );
-        if( !this.elements.navigation.length ) this.elements.navigation = $( this.options.navigation );
+        if( !this.elements.navigation.length ) {
+            this.elements.navigation = $( this.options.navigation );
+        }
     };
 
     // Get dimensions for the navigation if it exists and updates the navigationGutter parameter
     CSSSlider.prototype._getNavigationDimensions = function(){
         // Don't change the gutter if we don't have navigation
-        if( this.elements.navigation.length == 0 ) return false;
+        if( this.elements.navigation.length === 0 ) {
+            return false;
+        }
 
         // Don't change the gutter if the slider isn't vertical
-        if( this.options.orientation != 'vertical' ) return false;
+        if( this.options.orientation !== 'vertical' ) {
+            return false;
+        }
 
         this.navigationGutter = this.options.navigationWidth;
 
-        if( this.options.navigationWidth.indexOf( '%' ) != -1 ) {
+        if( this.options.navigationWidth.indexOf( '%' ) !== -1 ) {
             this.navigationGutter = parseFloat( this.options.navigationWidth.replace( "%", "" ) ) / 100 * this.sliderWidth;
         }
 
         // Override the width to 0 if the dropdown nav is visible
-        if( this._dropdownNavVisible ) this.navigationGutter = 0;
+        if( this._dropdownNavVisible ) {
+            this.navigationGutter = 0;
+        }
     };
 
     /**
@@ -495,14 +513,14 @@
         var self = this,
             sliderHeight = 0;
 
-        if( this.options.dynamicHeight != 'none' ) {
-            if( this.options.dynamicHeight == 'tallest' ) {
-                var slideHeights = new Array();
+        if( this.options.dynamicHeight !== 'none' ) {
+            if( this.options.dynamicHeight === 'tallest' ) {
+                var slideHeights = [];
                 $(this.elements.slides).each( function( index ) {
                     slideHeights.push( $(self.elements.slides.get( index )).find('.slide-inner').get(0).scrollHeight );
                 });
                 sliderHeight = Math.max.apply(Math, slideHeights);
-            } else if( this.options.dynamicHeight == 'pogo' ) {
+            } else if( this.options.dynamicHeight === 'pogo' ) {
                 sliderHeight = $(this.elements.slides.get( self.current )).find('.slide-inner').get(0).scrollHeight;
             }
 
@@ -521,7 +539,7 @@
     CSSSlider.prototype._setDynamicSliderHeight = function() {
         var self = this;
 
-        if( this.options.dynamicHeight != "none" ) {
+        if( this.options.dynamicHeight !== "none" ) {
             var navHeightOffset = 0;
             if( this.childNav ) {
                 navHeightOffset = this.elements.navigation.get(0).scrollHeight;
@@ -548,7 +566,7 @@
         var css = { transition: 'left ' + this.options.speed + 'ms ' + this.options.easing + ', top ' + this.options.speed + 'ms ' + this.options.easing };
 
         // Apply to a single slide
-        if( slide != undefined ) {
+        if( slide !== undefined ) {
             slide.css( css );
         }
         // Otherwise, apply to all slides
@@ -565,9 +583,11 @@
      * @param object event The event being fired
      */
     CSSSlider.prototype._touchEnd = function( event ) {
-        var slider = ($(this).data("CSSSlider") == undefined)? this : $(this).data("CSSSlider");
+        var slider = ($(this).data("CSSSlider") === undefined)? this : $(this).data("CSSSlider");
 
-        if( (slider.options.touch === false) || (slider.disabled === true) ) return false;
+        if( (slider.options.touch === false) || (slider.disabled === true) ) {
+            return false;
+        }
 
         if( window.addEventListener ) {
             slider.elements.slider[0].removeEventListener( 'touchmove', slider._touchMove, false );
@@ -581,12 +601,16 @@
 
         var breach = false;
         var direction = 'next';
-        if( slider.options.orientation == "horizontal" ) {
+        if( slider.options.orientation === "horizontal" ) {
             breach = Math.abs( slider._interactingOffset.left / slider.sliderWidth ) >= 0.5;
-            if( slider._interactingOffset.left > 0 ) direction = 'prev';
+            if( slider._interactingOffset.left > 0 ) {
+                direction = 'prev';
+            }
         } else {
             breach = Math.abs( slider._interactingOffset.top / slider.sliderHeight ) >= 0.5;
-            if( slider._interactingOffset.top > 0 ) direction = 'prev';
+            if( slider._interactingOffset.top > 0 ) {
+                direction = 'prev';
+            }
         }
 
         if( slider._interactionMoving && breach ) {
@@ -598,7 +622,7 @@
             slider.elements.slides.each( function( ind ) {
                 var css = {};
 
-                if( slider.options.orientation == "horizontal" ) {
+                if( slider.options.orientation === "horizontal" ) {
                     css.left = ( ind - slider.current ) * slider.sliderWidth;
                 } else {
                     css.top = ( ind - slider.current ) * slider.sliderHeight;
@@ -621,9 +645,11 @@
      * @param object event The event being fired
      */
     CSSSlider.prototype._touchMove = function( event ) {
-        var slider = ($(this).data("CSSSlider") == undefined)? this : $(this).data("CSSSlider");
+        var slider = ($(this).data("CSSSlider") === undefined)? this : $(this).data("CSSSlider");
 
-        if( (slider.options.touch === false) || (slider.disabled === true) ) return false;
+        if( (slider.options.touch === false) || (slider.disabled === true) ) {
+            return false;
+        }
 
         if( slider._interacting ) {
             slider._interactionMoving = true;
@@ -635,7 +661,7 @@
 
             // x axis swipe
             if((Math.abs(slider._interactingOffset.left) > Math.abs(slider._interactingOffset.top) )){
-                if(slider.options.orientation == "horizontal") {
+                if(slider.options.orientation === "horizontal") {
                     event.preventDefault();
                 }
                 if ( slider.preventDefaultSwipeX ) {
@@ -643,7 +669,7 @@
                 }
             // y axis swipe
             }else if(( Math.abs(slider._interactingOffset.top) > Math.abs(slider._interactingOffset.left) )){
-                if(slider.options.orientation == "vertical") {
+                if(slider.options.orientation === "vertical") {
                     event.preventDefault();
                 }
                 return false;
@@ -652,7 +678,7 @@
             slider.elements.slides.each( function( ind ) {
                 var css = {};
 
-                if( slider.options.orientation == "horizontal" ) {
+                if( slider.options.orientation === "horizontal" ) {
                     css.left = ( ( ind - slider.current ) * slider.sliderWidth ) + slider._interactingOffset.left;
                 } else {
                     css.top = ( ( ind - slider.current ) * slider.sliderHeight ) + slider._interactingOffset.top;
@@ -682,8 +708,12 @@
 
         if( event.touches ) {
             if( event.touches.length ) {
-                if( event.touches[0].pageY ) offset.top = event.touches[0].pageY;
-                if( event.touches[0].pageX ) offset.left = event.touches[0].pageX;
+                if( event.touches[0].pageY ) {
+                    offset.top = event.touches[0].pageY;
+                }
+                if( event.touches[0].pageX ) {
+                    offset.left = event.touches[0].pageX;
+                }
             }
         } else {
             offset.top = event.screenY;
@@ -701,9 +731,11 @@
      * @param object event The event being fired
      */
     CSSSlider.prototype._touchStart = function( event ) {
-        var slider = ($(this).data("CSSSlider") == undefined)? this : $(this).data("CSSSlider");
+        var slider = ($(this).data("CSSSlider") === undefined)? this : $(this).data("CSSSlider");
         
-        if( (slider.options.touch === false) || (slider.disabled === true) ) return false;
+        if( (slider.options.touch === false) || (slider.disabled === true) ) {
+            return false;
+        }
 
         slider._interacting = true;
         slider._interactionMoving = false;
@@ -742,11 +774,13 @@
      * @return boolean
      */
     CSSSlider.prototype._triggerEvent = function( eventname ) {
-        if( this._eventTrigger[eventname] == undefined ) this._eventTrigger[eventname] = 0;
+        if( this._eventTrigger[eventname] === undefined ) {
+            this._eventTrigger[eventname] = 0;
+        }
 
         this._eventTrigger[eventname]++;
 
-        if( this._eventTrigger[eventname] == this.elements.slides.length ) {
+        if( this._eventTrigger[eventname] === this.elements.slides.length ) {
             this._eventTrigger[eventname] = 0;
             return true;
         }
@@ -760,7 +794,7 @@
      * @param mixed A zero-indexed integer of the slide, a CSS selector or DOM Object
      */
     CSSSlider.prototype.goTo = function( slide ) {
-        if( this.disabled == false ) {
+        if( this.disabled === false ) {
             var index = -1;
 
             switch( typeof( slide ) ) {
@@ -857,10 +891,10 @@
 
     // Go to the next slide
     CSSSlider.prototype.next = function() {
-        if( this.disabled == false ) {
+        if( this.disabled === false ) {
             var slide = Math.min( this.elements.slides.length - 1, this.current + 1 );
 
-            if( this.options.loop !== false && ( this.current == this.elements.slides.length - 1 ) ) {
+            if( this.options.loop !== false && ( this.current === this.elements.slides.length - 1 ) ) {
                 slide = 0;
             }
 
@@ -881,18 +915,19 @@
      * @return mixed
      */
     CSSSlider.prototype.option = function( key, val ) {
-        if( val != undefined )
+        if( val !== undefined ) {
             this.options[key] = val;
+        }
 
         return this.options[key];
     };
 
     // Go to the previous slide
     CSSSlider.prototype.prev = function() {
-        if( this.disabled == false ) {
+        if( this.disabled === false ) {
             var slide = Math.max( 0, this.current - 1 );
 
-            if( this.options.loop !== false && this.current == 0 ) {
+            if( this.options.loop !== false && this.current === 0 ) {
                 slide = this.elements.slides.length - 1;
             }
 
@@ -917,10 +952,12 @@
         var action = arguments_array[0];
         var args = arguments_array.length > 1 ? arguments_array.slice( 1 ) : [];
 
-        if( typeof( this[action] ) == 'function' ) {
+        if( typeof( this[action] ) === 'function' ) {
             return this[action].apply( this, args );
-        } else if( typeof( this[action] ) != 'undefined' ) {
-            if( args.length > 0 ) this[action] = args[0];
+        } else if( typeof( this[action] ) !== 'undefined' ) {
+            if( args.length > 0 ) {
+                this[action] = args[0];
+            }
             return this[action];
         }
     };
@@ -955,19 +992,19 @@
             var $slide = self.elements.slides.eq( ind );
 
             // Stop all queued jQuery animations if animating via JavaScript
-            if( self.options.method == "animate" ) {
+            if( self.options.method === "animate" ) {
                 $slide.stop();
             }
 
             var css = {};
-            if( self.options.orientation == "horizontal" ) {
+            if( self.options.orientation === "horizontal" ) {
                 css.left = ( ind - self.current ) * self.sliderWidth;
             } else {
                 css.top = ( ind - self.current ) * self.sliderHeight;
             }
 
             $slide[self.options.method]( css, self.options.speed, function() {
-                if( self.options.method != "css" ) {
+                if( self.options.method !== "css" ) {
                     self._eventComplete.apply( self );
                 }
             } );
@@ -995,7 +1032,8 @@
 
     $.extend( $.fn, {
         cssSlider: function() {
-            var options = action = arguments;
+            var options = arguments;
+            var action = arguments;
             var _return = this;
 
             this.each( function( ind ) {
@@ -1011,7 +1049,7 @@
                 // Act upon it
                 if( action.length > 0 ) {
                     var _do = _CSSSlider.run.apply( _CSSSlider, action );
-                    if( typeof( _do ) != 'undefined' ) {
+                    if( typeof( _do ) !== 'undefined' ) {
                         _return = _do;
                     }
                 }
