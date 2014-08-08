@@ -70,11 +70,51 @@ describe("CSS Slider", function(){
 
     });
 
-    describe("prev and next classes", function(){
+    describe("prev/next classes", function(){
+      afterEach(function(){
+        expect(slider.elements.slides.filter('.prev').length).toEqual(1);
+        expect(slider.elements.slides.filter('.next').length).toEqual(1);
+      });
 
-      it("should have a 'prev' class before the current slide");
+      describe("when at start", function(){
+        // Go to the start of the slider.
+        beforeEach(function(){
+          slider.goTo(0);
+        });
+        it("should have a 'prev' class at end of slider", function(){
+          expect(slider.elements.slides.last()).toHaveClass('prev');
+        });
+        it("should have a 'next' class after the current slide", function(){
+          expect(slider.elements.slides.eq(slider.current+1)).toHaveClass('next');
+        });
+      });
 
-      it("should have a 'next' class after the current slide");
+      describe("when in middle", function(){
+        beforeEach(function(){
+          slider.next();
+        });
+
+        it("should have a 'prev' class before the current slide", function(){
+          expect(slider.elements.slides.eq(slider.current-1)).toHaveClass('prev');
+        });
+        it("should have a 'next' class after the current slide", function(){
+          expect(slider.elements.slides.eq(slider.current+1)).toHaveClass('next');
+        });
+      });
+
+      describe("when at end", function(){
+        // Go to the end of the slider.
+        beforeEach(function(){
+          slider.goTo(slider.elements.slides.length-1);
+        });
+
+        it("should have a 'prev' class before the current slide", function(){
+          expect(slider.elements.slides.eq(slider.current-1)).toHaveClass('prev');
+        });
+        it("should have a 'next' class at the start of the slider", function(){
+          expect(slider.elements.slides.first()).toHaveClass('next');
+        });
+      });
 
     });
 

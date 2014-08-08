@@ -12,9 +12,22 @@ module.exports = function(grunt) {
         }
       }
     },
+    jasmine: {
+      tests: {
+        src: 'src/**/*.js',
+        options: {
+          specs: 'spec/*-spec.js',
+          helpers: 'lib/*.js',
+          vendor: [
+            'lib/jquery-1.11.1.js',
+            'lib/jasmine-jquery.js'
+          ]
+        }
+      }
+    },
     watch : {
       files : ['src/*.js', 'spec/*.js', 'Gruntfile.js'],
-      // tasks: ['jshint'],
+      // tasks: ['jasmine'],
       options: {
         livereload: true // then live reload
       }
@@ -31,6 +44,7 @@ module.exports = function(grunt) {
     },
   });
 
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');

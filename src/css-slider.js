@@ -528,7 +528,7 @@
             }
             var css = {
                 height: this.sliderHeight + navHeightOffset
-            }
+            };
             this.elements.slider.css( css, $.extend( css, { 'transition': 'height 250ms' } ) );
         }
     };
@@ -776,8 +776,27 @@
 
             if( index > -1 ) {
                 this.slide( index );
+                this._addPrevNextClasses();
             }
         }
+    };
+
+    CSSSlider.prototype._addPrevNextClasses = function(){
+        var prevIndex = this.current - 1;
+        var nextIndex = this.current + 1;
+
+        this.elements.slides.removeClass('prev next');
+
+        if(this.current === 0){
+            prevIndex = this.elements.slides.length - 1;
+        }
+        
+        if(this.current === (this.elements.slides.length - 1)){
+            nextIndex = 0;
+        }
+
+        this.elements.slides.eq(prevIndex).addClass('prev');
+        this.elements.slides.eq(nextIndex).addClass('next');
     };
 
     // Hide dropdown navigation
@@ -785,7 +804,9 @@
         // Set visibility of dropdown nav
         this._dropdownNavVisible = false;
 
-        if( typeof( this.elements.dropdownNav ) != 'undefined' ) this.elements.dropdownNav.hide();
+        if( typeof( this.elements.dropdownNav ) !== 'undefined' ) {
+            this.elements.dropdownNav.hide();
+        }
         this.elements.navigation.show();
     };
 
@@ -820,6 +841,9 @@
 
         // Build the slider
         this._build();
+
+        // Add the previous/next classes
+        this._addPrevNextClasses();
 
         // Start autoplay timer
         this._autoPlay();
@@ -922,7 +946,7 @@
             this.elements.navigationLinks.removeClass( 'active' ).eq( this.current ).addClass( 'active' );
         }
 
-        // Update active slide
+        // Update slide classes
         if( this.elements.slides.length ) {
             this.elements.slides.removeClass( 'current' ).eq( this.current ).addClass( 'current' );
         }
