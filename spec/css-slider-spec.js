@@ -13,7 +13,6 @@ describe("CSS Slider", function(){
   });
 
   describe("Configurations:", function(){
-
     describe("start slide", function(){
 
       it("should be the default when not specified", function () {
@@ -144,12 +143,10 @@ describe("CSS Slider", function(){
 
     describe("built event", function(){
       it("should trigger an event when built", function(){
-
         loadFixtures('example.html');
         var sliderElem = $('.css-slider');
         spyOnEvent(sliderElem, 'slider:built');
         sliderElem.cssSlider();
-
         expect('slider:built').toHaveBeenTriggeredOn(sliderElem);
       });
     });
@@ -236,6 +233,91 @@ describe("CSS Slider", function(){
         slider.next();
         currentSlide = slider.current;
         expect(previousSlide).not.toEqual(currentSlide);
+      });
+    });
+
+    describe("if navigation elements are specified", function(){
+
+      describe("default", function(){
+        beforeEach(function(){
+          loadFixtures('example_with_default_navs.html');
+          sliderElem = $('.css-slider').cssSlider();
+          slider = sliderElem.data('CSSSlider');
+          
+          // Spy on these methods
+          spyOn(slider, 'goTo');
+          spyOn(slider, 'prev');
+          spyOn(slider, 'next');
+        });
+        it("should populate the default container", function(){
+          expect($('.css-slider>.slider-navigation a').length).toEqual(slider.elements.slides.length);
+        });
+        it("should goTo() when nav-item is clicked", function(){
+          // Click a random slide
+          $('.css-slider>.slider-navigation a').random().click();
+          expect(slider.goTo).toHaveBeenCalled();
+        });
+      });
+      describe("custom", function(){
+        beforeEach(function(){
+          loadFixtures('example_with_custom_navs.html');
+          sliderElem = $('.css-slider').cssSlider();
+          slider = sliderElem.data('CSSSlider');
+
+          // Spy on these methods
+          spyOn(slider, 'goTo');
+          spyOn(slider, 'prev');
+          spyOn(slider, 'next');
+        });
+        it("should populate the custom container", function(){
+          expect($('#my-special-slider-navigation a').length).toEqual(slider.elements.slides.length);
+        });
+        it("should goTo() when nav-item is clicked", function(){
+          // Click a random slide
+          $('#my-special-slider-navigation a').random().click();
+          expect(slider.goTo).toHaveBeenCalled();
+        });
+      });
+        
+      describe("prev/next buttons", function(){
+        describe("default buttons", function(){
+          beforeEach(function(){
+            loadFixtures('example_with_default_navs.html');
+            sliderElem = $('.css-slider').cssSlider();
+            slider = sliderElem.data('CSSSlider');
+
+            // Spy on these methods
+            spyOn(slider, 'prev');
+            spyOn(slider, 'next');
+          });
+          it("should call prev() when the previous button is clicked", function(){
+            $('.css-slider > .prev').click();
+            expect(slider.prev).toHaveBeenCalled();
+          });
+          it("should call next() when the previous button is clicked", function(){
+            $('.css-slider > .next').click();
+            expect(slider.next).toHaveBeenCalled();
+          });
+        });
+        describe("custom buttons", function(){
+          beforeEach(function(){
+            loadFixtures('example_with_custom_navs.html');
+            sliderElem = $('.css-slider').cssSlider();
+            slider = sliderElem.data('CSSSlider');
+
+            // Spy on these methods
+            spyOn(slider, 'prev');
+            spyOn(slider, 'next');
+          });
+          it("should call prev() when the next button is clicked", function(){
+            $('#my-special-prev-button').click();
+            expect(slider.prev).toHaveBeenCalled();
+          });
+          it("should call next() when the next button is clicked", function(){
+            $('#my-special-next-button').click();
+            expect(slider.next).toHaveBeenCalled();
+          });
+        });
       });
     });
 

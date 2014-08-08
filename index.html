@@ -8,6 +8,7 @@
   <script src="src/css-slider.js"></script>
   <script type="text/javascript">
   $(function(){
+  	$('.css-slider').on('slider:complete', function(event){ console.log(event); });
   	window.slider = $('.css-slider').cssSlider();
   });
   </script>
@@ -24,6 +25,7 @@
 	  <div class="slide">
 	    <h1>Slide Three</h1>
 	  </div>
+	  <div class="slider-navigation"></div>
 	</div>
 </body>
 </html>

@@ -566,7 +566,7 @@
         var css = { transition: 'left ' + this.options.speed + 'ms ' + this.options.easing + ', top ' + this.options.speed + 'ms ' + this.options.easing };
 
         // Apply to a single slide
-        if( slide !== undefined ) {
+        if( typeof(slide) !== 'undefined' ) {
             slide.css( css );
         }
         // Otherwise, apply to all slides
@@ -645,7 +645,7 @@
      * @param object event The event being fired
      */
     CSSSlider.prototype._touchMove = function( event ) {
-        var slider = ($(this).data("CSSSlider") === undefined)? this : $(this).data("CSSSlider");
+        var slider = (typeof($(this).data("CSSSlider")) === 'undefined')? this : $(this).data("CSSSlider");
 
         if( (slider.options.touch === false) || (slider.disabled === true) ) {
             return false;
@@ -774,7 +774,7 @@
      * @return boolean
      */
     CSSSlider.prototype._triggerEvent = function( eventname ) {
-        if( this._eventTrigger[eventname] === undefined ) {
+        if( typeof(this._eventTrigger[eventname]) === 'undefined' ) {
             this._eventTrigger[eventname] = 0;
         }
 
