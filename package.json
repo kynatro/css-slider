@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "A CSS based Slider",
   "main": "index.html",
+  "license": "GPL-3.0+",
   "repository": {
     "type": "git",
     "url": "git://github.com/digital-telepathy/css-slider.git"
